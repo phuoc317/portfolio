@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV - FE2</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Overlay mở đầu nhiều bước -->
+  <div class="intro-overlay">
+    <div class="intro-sequence">
+      <h1 class="step-text" id="step1">Xin chào...</h1>
+      <h1 class="step-text" id="step2">Tôi là Trần Thiên Phước</h1>
+      <h1 class="step-text" id="step3">Cùng xem CV của tôi nhé!</h1>
+    </div>
+  </div>
+
+  <!-- Nội dung chính -->
+  <header class="hero">
+    <div class="container">
+      <h1><span class="typing">Xin chào, tôi là Trần Thiên Phước</span></h1>
+      <p class="fade-in">Front-End Developer </p>
+    </div>
+  </header>
+
+
+  <section class="about" id="about">
+    <div class="container" data-aos="fade-right">
+      <h2>Giới thiệu</h2>
+      <p>Tôi là sinh viên ngành CNTT, đam mê web front-end, animation, và thiết kế UI tinh tế.</p>
+
+      <div class="skills">
+        <div class="skill">
+          <span>HTML</span>
+          <div class="skill-bar">
+            <div class="skill-progress" data-percent="95">0%</div>
+          </div>
+        </div>
+        <div class="skill">
+          <span>CSS</span>
+          <div class="skill-bar">
+            <div class="skill-progress" data-percent="90">0%</div>
+          </div>
+        </div>
+        <div class="skill">
+          <span>JavaScript</span>
+          <div class="skill-bar">
+            <div class="skill-progress" data-percent="80">0%</div>
+          </div>
+        </div>
+        <div class="skill">
+          <span>React</span>
+          <div class="skill-bar">
+            <div class="skill-progress" data-percent="70">0%</div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+
+  <section class="projects" id="projects">
+    <div class="container">
+      <h2 data-aos="fade-up">Dự án</h2>
+      <div class="project-grid">
+        <div class="project-card" data-aos="zoom-in">
+          <h3>Project 1</h3>
+          <img src="Ikigai-Garden-Cafe.png" alt="" width="150px">
+        </div>
+        <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
+          <h3>Project 2</h3>
+          <img src="nha_hang_6_f3ffa474ec.jpg" alt="" width="150px">
+        </div>
+        <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
+          <h3>Project 3</h3>
+          <img src="au-lac-charner-hotel.jpg" alt="" width="150px">
+        </div>
+        <div class="project-card" data-aos="zoom-in" data-aos-delay="100">
+          <h3>Project 4</h3>
+          <img src="mo-tiem-banh-kem-can-bao-nhieu-von-1.jpg" alt="" width="150px">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="container" data-aos="fade-up">
+      <h2>Liên hệ</h2>
+      <p id="email" class="copy-email" title="Click để copy email">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16v16H4z" />
+          <polyline points="22,6 12,13 2,6" />
+        </svg>
+        thienphuoc31072005@email.com
+      </p>
+      <div id="copy-message" class="copy-message">Đã sao chép email!</div>
+    </div>
+  </section>
+
+
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    window.addEventListener("load", () => {
+      const step1 = document.getElementById("step1");
+      const step2 = document.getElementById("step2");
+      const step3 = document.getElementById("step3");
+      const overlay = document.querySelector(".intro-overlay");
+
+      step2.style.opacity = "0";
+      step3.style.opacity = "0";
+
+      setTimeout(() => {
+        step1.style.opacity = "0";
+        step2.style.opacity = "1";
+      }, 2000);
+
+      setTimeout(() => {
+        step2.style.opacity = "0";
+        step3.style.opacity = "1";
+      }, 4000);
+
+      // ✨ Sau khi overlay tắt → Bắt đầu khởi tạo thanh kỹ năng
+      setTimeout(() => {
+        overlay.classList.add("fade-out");
+        initSkillObserver(); // gọi hàm này khi overlay biến mất
+      }, 6000);
+    });
+
+    // 👇 Hàm khởi tạo observer cho thanh kỹ năng
+    function initSkillObserver() {
+      const skillElements = document.querySelectorAll('.skill');
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const progressEl = entry.target.querySelector('.skill-progress');
+            const percent = parseInt(progressEl.dataset.percent);
+            let current = 0;
+
+            const animate = () => {
+              current++;
+              progressEl.style.width = current + '%';
+              progressEl.textContent = current + '%';
+              if (current < percent) {
+                requestAnimationFrame(animate);
+              }
+            };
+
+            animate();
+            obs.unobserve(entry.target); // chỉ chạy một lần
+          }
+        });
+      }, { threshold: 0.5 });
+
+      skillElements.forEach(el => observer.observe(el));
+    }
+
+
+    document.getElementById('email').addEventListener('click', () => {
+      const emailText = 'thienphuoc31072005@email.com';
+      navigator.clipboard.writeText(emailText).then(() => {
+        const msg = document.getElementById('copy-message');
+        msg.classList.add('show');
+        setTimeout(() => {
+          msg.classList.remove('show');
+        }, 2000);
+      }).catch(() => {
+        alert('Không thể copy email, bạn vui lòng copy thủ công nhé!');
+      });
+    });
+
+  </script>
+
+
+
+</body>
+
+</html>
